@@ -1,0 +1,103 @@
+TFMUD - Text First Multi User Dungeon Engine
+============================================
+
+  * * * WORK IN PROGRESS * * *
+
+TFMUD is a traditional text-based Multi User Dungeon (MUD) engine
+that differentiates itself from MUDs that rely on pseudo-graphics
+or 2D gameplay elements, but rather strives to take maximum advantage
+of the text format, as the text format itself can create everything
+that is needed for the utmost immersion, like a novel can do it.
+Therefore, TFMUD is actually more like an interactive fiction (IF)
+engine, but TFMUD has particular emphasis on interaction with the
+shared multiplayer environment.
+
+Instead of relying on traditional 2D/3D CRPG (Computer Roleplaying
+Game) gameplay elements, that are often action-game oriented, TFMUD
+does it with a text-based command-response format where commands
+specify the intention of the player, and the engine fullfills the
+intention. This means, the player does not need to micromanage
+details. This is more akin to traditional in-person table-top-RPG
+where players tell their intentions and the game master runs the game
+mechanisms behind a screen and then tells what happens.
+
+When compared to other MUD engines, TFMUD strives to find a perfect
+abstraction level for creators to easily create highly interactive
+environments, even on the fly, that results in dynamic
+action-descriptions that does not bore the player, but rather immerses
+the player into the world like a good novel.
+
+With the text format and a good content creation system very
+interesting worlds can be created with ease especially when the content
+needs not to be tied to 2D/3D game design with grids and such. When
+freed from the limitations of a 2D/3D/roguelike games, vast distances,
+heights and depths can be created and covered with a few lines of text.
+
+See https://majik3d-legacy.org/future.html for more.
+
+Features
+========
+
+ * On the fly dynamic content creation.
+
+ * Viewpoint oriented action descriptions.
+
+ * Save files use same syntax as the runtime object creation syntax.
+
+ * Commands support "here-documents" for allowing editing of multiline
+   action descriptions from save files with a fullscreen editor.
+
+TODO
+====
+
+ * Tag-based "puzzle system" for dynamic descriptions and actions.
+
+Dependencies
+============
+
+Tested on OpenBSD, no dependencies necessary.
+
+Uses kqueue(2) by default, meaning that by default this will only
+work on *BSDs and macOS.
+
+For Linux an epoll implementation should be added, or kqueue(2)
+emulation should be used.
+
+The sources includes a poll.c which implements event.h API as an
+example, that could be used on Linux, as well, but it is not tested.
+
+Compile & Install & Run
+=======================
+
+$ ./configure ~
+$ make install
+$ tfmud &
+$ telnet localhost 4000
+
+Command language examples
+=========================
+
+goto room/1
+dig to:room/2 north
+describe travel north <
+	You travel a long way up to the mountain.
+	.
+describe target temple <
+	The temple looks ominous.
+	.
+action north <
+	tag:night,!cloudy
+	prop:str>5,name="foobar"
+	set rtag foobar
+	toggle rtag baz
+	unset rtag foo
+	set atag questcomplete
+	.
+goto item/sword
+describe here <
+	This is a sharp looking sword.
+	.
+action open <
+	What a strange thing! This sword can be opened and you open it.
+	.
+goto
